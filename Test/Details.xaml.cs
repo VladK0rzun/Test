@@ -21,20 +21,45 @@ namespace Test
     /// </summary>
     public partial class Details : Page 
     {
+        private CoinGeckoService _coinGeckoService = new CoinGeckoService();
+        private Currency selectedCurrency;
         public Details(Currency selectedCurrency)
         {
+            this.selectedCurrency = selectedCurrency;
             InitializeComponent();
+            DataContext = this;
+            LoadData();
             DisplayCurrencyDetails(selectedCurrency);
+
         }
-      
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (NavigationService != null && NavigationService.CanGoBack)
+            {
+                NavigationService.GoBack();
+            }
+        }
 
         private void DisplayCurrencyDetails(Currency currency)
         {
-            // Оновіть елементи на сторінці деталей з використанням властивостей валюти
-            nameLabel.Content = "Name: " + currency.Name;
-            priceLabel.Content = "Price: " + currency.current_price.ToString("C2"); // Припустимо, що ціна - це double і ви хочете відобразити її як грошове значення
-            marketCapLabel.Content = "Market Cap: " + currency.market_cap.ToString("C0"); // Аналогічно тут
-                                                                                          // Додайте інші властивості валюти, які ви хочете відобразити
+
+            nameLabel.Content = $"Name: {selectedCurrency.Name}";
+            priceLabel.Content = $"Price: {selectedCurrency.current_price.ToString("C2")}";
+            marketCapLabel.Content = $"Market Cap: {selectedCurrency.market_cap.ToString("C0")}";
+
+          
+        }
+        private async void LoadData()
+        {
+            var currencies = await _coinGeckoService.GetCurrencyMarketsAsync(selectedCurrency.Name);
+            if (currencies != null)
+            {
+                marketsListView.ItemsSource = currencies;
+            }
+            else
+            {
+                MessageBox.Show("Failed to fetch data from CoinGecko API.");
+            }
         }
     }
 

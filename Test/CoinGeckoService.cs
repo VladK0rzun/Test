@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,14 @@ namespace Test
     internal class CoinGeckoService
     {
         private const string ApiBaseUrl = "https://api.coingecko.com/api/v3";
-        private const string ApiKey = "CG-zUsikNX5cHHRCfmPqiWvpRni"; // Замініть це на свій ключ API
+        private const string ApiKey = "CG-LCajFqipEGQDbnmN5jBfrovp"; // Замініть це на свій ключ API
 
         public async Task<List<Currency>> GetTopCurrenciesAsync(int limit = 10)
         {
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
-                client.DefaultRequestHeaders.Add("User-Agent", "Test-task"); // Замініть "YourAppName" на назву вашого додатку
+                client.DefaultRequestHeaders.Add("User-Agent", "Test-Task"); // Замініть "YourAppName" на назву вашого додатку
 
                 string apiUrl = $"{ApiBaseUrl}/coins/markets";
                 var parameters = new Dictionary<string, string>
@@ -41,6 +42,52 @@ namespace Test
                 else
                 {
                     // Обробка помилок
+                    Console.WriteLine($"Error: {response.StatusCode}");
+                    return null;
+                }
+            }
+        }
+        public async Task<List<CurrencyMarket>> GetCurrencyMarketsAsync(string currencyId)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                client.DefaultRequestHeaders.Add("User-Agent", "Test-Task");
+
+                string apiUrl = $"{ApiBaseUrl}/coins/{currencyId.ToLower()}/tickers";
+
+                var response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+
+                    JObject responseObject = JObject.Parse(content);
+
+                    if (responseObject["tickers"] != null)
+                    {
+                        var tickers = responseObject["tickers"];
+                        List<CurrencyMarket> markets = new List<CurrencyMarket>();
+
+                        foreach (var ticker in tickers)
+                        {
+                            var marketName = ticker["market"]["name"].ToString();
+                            var lastPrice = Convert.ToDouble(ticker["last"]);
+
+                            var market = new CurrencyMarket(marketName, lastPrice);
+                            markets.Add(market);
+                        }
+
+                        return markets;
+                    }
+                    else
+                    {
+
+                        Console.WriteLine("Error: 'tickers' property not found in the API response.");
+                        return null;
+                    }
+                }
+                else
+                {
                     Console.WriteLine($"Error: {response.StatusCode}");
                     return null;
                 }
