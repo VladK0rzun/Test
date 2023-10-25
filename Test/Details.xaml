@@ -1,0 +1,12 @@
+﻿<Page x:Class="Test.Details"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Details" Height="450" Width="800">
+    <Grid>
+        <StackPanel Margin="10">
+            <Label x:Name="nameLabel" FontSize="16"/>
+            <Label x:Name="priceLabel" FontSize="14"/>
+            <Label x:Name="marketCapLabel" FontSize="14"/>
+        </StackPanel>
+    </Grid>
+</Page>

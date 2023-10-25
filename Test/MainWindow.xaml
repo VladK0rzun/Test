@@ -1,0 +1,22 @@
+﻿<Page x:Class="Test.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Test"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid IsEnabled="True">
+        <ListView  x:Name="currencyListView"  SelectionChanged="CurrencyListView_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
+                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding current_price}" Width="100"/>
+                    <GridViewColumn Header="Price Change 24h" DisplayMemberBinding="{Binding price_change_24h}" Width="150"/>
+                    <GridViewColumn Header="Market Cap" DisplayMemberBinding="{Binding market_cap}" Width="150"/>
+                    <GridViewColumn Header="Total Volume" DisplayMemberBinding="{Binding total_volume}" Width="150"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Page>
