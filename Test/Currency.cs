@@ -1,4 +1,6 @@
-﻿namespace Test
+﻿using System.Collections.Generic;
+
+namespace Test
 {
     public class Currency
     {
@@ -25,5 +27,11 @@
             Name = name;
             this.last = last;
         }
+    }
+    public class HistoricalPriceResponse
+    {
+        public List<List<double>> Prices { get; set; }
+        public List<List<double>> MarketCaps { get; set; }
+        public List<List<double>> TotalVolumes { get; set; }
     }
 }

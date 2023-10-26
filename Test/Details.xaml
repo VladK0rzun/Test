@@ -1,15 +1,23 @@
 ﻿<Page x:Class="Test.Details"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
       Title="Details" Height="450" Width="800">
-    <ScrollViewer >
-    <Grid Height="450" Width="800">
-        <StackPanel Margin="10">
-            <Label x:Name="nameLabel" FontSize="16"/>
-            <Label x:Name="priceLabel" FontSize="14"/>
-            <Label x:Name="marketCapLabel" FontSize="14"/>
+    <ScrollViewer  VerticalScrollBarVisibility="Auto">
+        <Grid Height="auto" Width="auto">
+            <StackPanel Margin="10">
+                <Label x:Name="nameLabel" FontSize="16"/>
+                <Label x:Name="priceLabel" FontSize="14"/>
+                <Label x:Name="marketCapLabel" FontSize="14"/>
                 <Button Content="Back to Main" Click="BackButton_Click"/>
-
+                <ComboBox x:Name="daysComboBox" Width="100" SelectedIndex="0">
+                    <ComboBoxItem Content="7 Days" Tag="7"/>
+                    <ComboBoxItem Content="30 Days" Tag="30"/>
+                    <ComboBoxItem Content="90 Days" Tag="90"/>
+                </ComboBox>
+                <Grid Height="300" Width="600">
+                    <lvc:CartesianChart Series="{Binding YourSeriesCollection}"/>
+                </Grid>
                 <ListView x:Name="marketsListView"
               ItemsSource="{Binding Currencies}">
                     <ListView.View>
@@ -20,10 +28,8 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-            
-
-            
-        </StackPanel>
-    </Grid>
+                
+            </StackPanel>
+        </Grid>
     </ScrollViewer>
 </Page>

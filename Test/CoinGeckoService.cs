@@ -47,6 +47,46 @@ namespace Test
                 }
             }
         }
+        public async Task<List<Tuple<DateTime, double>>> GetHistoricalPricesAsync(string currencyId, int days = 1)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                client.DefaultRequestHeaders.Add("User-Agent", "Test-Task");
+
+                // Формування URL-запиту з використанням введених параметрів
+                string apiUrl = $"{ApiBaseUrl}/coins/{currencyId.ToLower()}/market_chart";
+                var parameters = new Dictionary<string, string>
+            {
+                {"vs_currency", "usd"},
+                {"days", days.ToString()}
+            };
+
+                var response = await client.GetAsync($"{apiUrl}?{string.Join("&", parameters.Select(kv => $"{kv.Key}={kv.Value}"))}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+
+                    // Розбір відповіді та повернення списку Tuple<DateTime, double>
+                    JObject responseObject = JObject.Parse(content);
+                    var prices = responseObject["prices"].ToObject<List<List<double>>>();
+                    Console.WriteLine($"API Response: {content}");
+                    List<Tuple<DateTime, double>> historicalPrices = prices.Select(p => new Tuple<DateTime, double>(UnixTimeStampToDateTime(p[0]), p[1])).ToList();
+                    return historicalPrices;
+                }
+                else
+                {
+                    Console.WriteLine($"Error: {response.StatusCode}");
+                    return null;
+                }
+            }
+        }
+
+        // Допоміжний метод для перетворення часу Unix у DateTime
+        private DateTime UnixTimeStampToDateTime(double unixTimeStampMillis)
+        {
+            return new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(unixTimeStampMillis).ToLocalTime();
+        }
         public async Task<List<CurrencyMarket>> GetCurrencyMarketsAsync(string currencyId)
         {
             using (HttpClient client = new HttpClient())
