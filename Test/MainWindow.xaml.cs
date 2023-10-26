@@ -13,21 +13,24 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace Test
 {
+
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Page
     {
         private CoinGeckoService _coinGeckoService = new CoinGeckoService();
-
+        private List<Currency> originalCurrencies;
         public MainWindow()
         {
             InitializeComponent();
             currencyListView.SelectionChanged += CurrencyListView_SelectionChanged;
             LoadData();
-        }
+        
+    }
 
         private async void LoadData()
         {
@@ -35,6 +38,7 @@ namespace Test
             if (currencies != null)
             {
                 currencyListView.ItemsSource = currencies;
+                originalCurrencies = currencies.ToList();
             }
             else
             {
@@ -46,12 +50,38 @@ namespace Test
         {
             if (currencyListView.SelectedItem != null && currencyListView.SelectedItem is Currency selectedCurrency)
             {
-                // Create a new Details page and pass the selected currency as a parameter
+
                 Details detailPage = new Details(selectedCurrency);
 
-                // Navigate to the Details page in the Frame
+
                 NavigationService.Navigate(detailPage);
             }
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchText = searchTextBox.Text.ToLower();
+            List<Currency> filteredCurrencies = new List<Currency>();
+
+            if (string.IsNullOrEmpty(searchText))
+            {
+                // Если строка поиска пуста, восстанавливаем оригинальный список
+                filteredCurrencies = originalCurrencies;
+            }
+            else
+            {
+                // Фильтруем валюты на основе введенного текста
+                foreach (Currency currency in originalCurrencies)
+                {
+                    if (currency.Name.ToLower().Contains(searchText) || currency.symbol.ToLower().Contains(searchText))
+                    {
+                        filteredCurrencies.Add(currency);
+                    }
+                }
+            }
+
+            // Обновляем источник данных для currencyListView
+            currencyListView.ItemsSource = filteredCurrencies;
         }
     }
 }

@@ -8,8 +8,8 @@
             <Label x:Name="nameLabel" FontSize="16"/>
             <Label x:Name="priceLabel" FontSize="14"/>
             <Label x:Name="marketCapLabel" FontSize="14"/>
-            
-            
+                <Button Content="Back to Main" Click="BackButton_Click"/>
+
                 <ListView x:Name="marketsListView"
               ItemsSource="{Binding Currencies}">
                     <ListView.View>
@@ -22,7 +22,7 @@
                 </ListView>
             
 
-            <Button Content="Back to Main" Click="BackButton_Click"/>
+            
         </StackPanel>
     </Grid>
     </ScrollViewer>

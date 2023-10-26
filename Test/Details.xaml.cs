@@ -36,7 +36,7 @@ namespace Test
         {
             if (NavigationService != null && NavigationService.CanGoBack)
             {
-                NavigationService.GoBack();
+                NavigationService.Navigate(new Uri("MainWindow.xaml", UriKind.Relative));
             }
         }
 

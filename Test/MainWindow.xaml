@@ -6,17 +6,33 @@
         xmlns:local="clr-namespace:Test"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Page.Resources>
+        <Style x:Key="PlaceholderTextBox" TargetType="TextBox">
+            <Setter Property="Foreground" Value="Black"/>
+            <Style.Triggers>
+                <Trigger Property="Text" Value="">
+                    <Setter Property="Foreground" Value="Gray"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+    
     <Grid IsEnabled="True">
-        <ListView  x:Name="currencyListView"  SelectionChanged="CurrencyListView_SelectionChanged">
+
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Search: " FontSize="20" FontWeight="Bold">
+            <TextBox x:Name="searchTextBox"  Width="200" Style="{StaticResource PlaceholderTextBox}" TextChanged="SearchTextBox_TextChanged"/>
+            </TextBlock>
+            <ListView  x:Name="currencyListView"  SelectionChanged="CurrencyListView_SelectionChanged">
+            
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
                     <GridViewColumn Header="Price" DisplayMemberBinding="{Binding current_price}" Width="100"/>
-                    <GridViewColumn Header="Price Change 24h" DisplayMemberBinding="{Binding price_change_24h}" Width="150"/>
-                    <GridViewColumn Header="Market Cap" DisplayMemberBinding="{Binding market_cap}" Width="150"/>
-                    <GridViewColumn Header="Total Volume" DisplayMemberBinding="{Binding total_volume}" Width="150"/>
+                    <GridViewColumn Header="Symbol" DisplayMemberBinding="{Binding symbol}" Width="50"/>
                 </GridView>
             </ListView.View>
         </ListView>
+        </StackPanel>
     </Grid>
 </Page>
