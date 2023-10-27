@@ -17,16 +17,17 @@
         </Style>
     </Page.Resources>
 
-    <Grid IsEnabled="True">
+    <Grid IsEnabled="True" Background="#f2f2f2" Width="auto" Height="auto">
 
-        <StackPanel Orientation="Vertical">
-            <Frame x:Name="contentFrame" NavigationUIVisibility="Hidden"/>
-            <Button  x:Name="ConvertPageButton" Content="Convert currency" Click="ConvertPageButton_Click" Width="150" HorizontalAlignment="Left"/>
-            <TextBlock Text="Search: " FontSize="20" FontWeight="Bold">
-            <TextBox x:Name="searchTextBox"  Width="200" Style="{StaticResource PlaceholderTextBox}" TextChanged="SearchTextBox_TextChanged"/>
-            </TextBlock>
+        <StackPanel Orientation="Vertical" Margin="20">
             
-            <ListView  x:Name="currencyListView"  SelectionChanged="CurrencyListView_SelectionChanged">
+                <Frame x:Name="contentFrame" NavigationUIVisibility="Hidden"/>
+                <Button  x:Name="ConvertPageButton" Content="Convert currency" Click="ConvertPageButton_Click" Width="150" Height="20" HorizontalAlignment="Left" Margin="0,0,0,20"/>
+            <TextBlock><Run Text="Search for currency: "/><InlineUIContainer>
+                        <TextBox x:Name="searchTextBox"  Width="200" Style="{StaticResource PlaceholderTextBox}" TextChanged="SearchTextBox_TextChanged" HorizontalAlignment="Right" Margin="0,0,0,0"/>
+                    </InlineUIContainer></TextBlock>
+
+            <ListView  x:Name="currencyListView"  SelectionChanged="CurrencyListView_SelectionChanged" Height="auto" Width="auto">
 
                 <ListView.View>
                     <GridView>

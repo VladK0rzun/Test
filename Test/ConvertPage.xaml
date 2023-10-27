@@ -6,24 +6,27 @@
         xmlns:local="clr-namespace:Test"
         mc:Ignorable="d"
         Title="ConvertPage" Height="450" Width="800">
-    <Grid Width="auto" Height="auto">
+    <Grid Width="auto" Height="auto" Background="#f2f2f2">
         <StackPanel Margin="10">
             <Frame x:Name="contentFrame" NavigationUIVisibility="Hidden"/>
             <Button x:Name="MainPageButton" Content="Back to main Page" Click="BackButton_Click" Width="150" HorizontalAlignment="Left"/>
             
             <Label>Convert Currency</Label>
+            <Grid Margin="0 10">
             <Label>Amount:</Label>
-            <TextBox x:Name="amountTextBox" Width="100"/>
+            <TextBox x:Name="amountTextBox" Width="100" Margin="72,1,608,-1"/>
+            </Grid>
+            <Grid Margin="0 10">
+                <Label>From Currency:</Label>
+            <ComboBox x:Name="fromCurrencyComboBox" Width="100" Margin="100,1,580,-1"/>
+            </Grid>
+            <Grid Margin="0 10">
+                <Label>To Currency:</Label>
+            <ComboBox x:Name="toCurrencyComboBox" Width="100" Margin="98,-2,582,2"/>
+            </Grid>
+            <Button Content="Convert" Click="ConvertButton_Click" Margin="0,10,0,0" Width="100" HorizontalAlignment="Left"/>
 
-            <Label>From Currency:</Label>
-            <ComboBox x:Name="fromCurrencyComboBox" Width="100"/>
-
-            <Label>To Currency:</Label>
-            <ComboBox x:Name="toCurrencyComboBox" Width="100"/>
-
-            <Button Content="Convert" Click="ConvertButton_Click" Margin="0,10,0,0"/>
-
-            <Label x:Name="resultLabel" FontSize="16" FontWeight="Bold" Margin="0,20,0,0"/>
+            <Label x:Name="resultLabel" FontSize="16" FontWeight="Bold" Margin="10,20,0,0" HorizontalAlignment="Left"/>
         </StackPanel>
     </Grid>
 </Page>

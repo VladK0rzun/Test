@@ -38,6 +38,7 @@ namespace Test
             daysComboBox.SelectionChanged += DaysComboBox_SelectionChanged;
             LoadData();
             DisplayCurrencyDetails(selectedCurrency);
+            UpdateChart();
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

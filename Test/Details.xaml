@@ -4,13 +4,14 @@
       xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
       Title="Details" Height="450" Width="800">
     <ScrollViewer  VerticalScrollBarVisibility="Auto">
-        <Grid Height="auto" Width="auto">
+        <Grid Height="auto" Width="auto" Background="#f2f2f2">
             <StackPanel Margin="10">
+                <Button Content="Back to Main" Click="BackButton_Click" Width="auto" Height="auto"/>
                 <Label x:Name="nameLabel" FontSize="16"/>
                 <Label x:Name="priceLabel" FontSize="14"/>
                 <Label x:Name="marketCapLabel" FontSize="14"/>
-                <Button Content="Back to Main" Click="BackButton_Click"/>
-                <ComboBox x:Name="daysComboBox" Width="100" SelectedIndex="0">
+                <ComboBox x:Name="daysComboBox" Width="100" SelectedIndex="0" Margin="10 10 10 10" HorizontalAlignment="Left">
+                    <ComboBoxItem Content="1 Days" Tag="1"/>
                     <ComboBoxItem Content="7 Days" Tag="7"/>
                     <ComboBoxItem Content="30 Days" Tag="30"/>
                     <ComboBoxItem Content="90 Days" Tag="90"/>
@@ -19,9 +20,8 @@
                     <lvc:CartesianChart Series="{Binding YourSeriesCollection}"/>
                 </Grid>
                 <ListView x:Name="marketsListView"
-              ItemsSource="{Binding Currencies}">
+              ItemsSource="{Binding Currencies}" Margin="10 10 10 10" Width="auto" Height="auto">
                     <ListView.View>
-
                         <GridView>
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
                             <GridViewColumn Header="Price" DisplayMemberBinding="{Binding last}"/>
