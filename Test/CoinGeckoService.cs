@@ -11,7 +11,7 @@ namespace Test
     internal class CoinGeckoService
     {
         private const string ApiBaseUrl = "https://api.coingecko.com/api/v3";
-        private const string ApiKey = "CG-eBGBcYK66ApzzcbTS1NzCsK1"; // Замініть це на свій ключ API
+        private const string ApiKey = "YOUR_API_KEY_HERE "; // Замініть це на свій ключ API
 
         public async Task<List<Currency>> GetTopCurrenciesAsync(int limit = 10)
         {
