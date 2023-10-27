@@ -29,6 +29,7 @@ namespace Test
             InitializeComponent();
             currencyListView.SelectionChanged += CurrencyListView_SelectionChanged;
             LoadData();
+
         
     }
 
@@ -58,6 +59,7 @@ namespace Test
             }
         }
 
+
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             string searchText = searchTextBox.Text.ToLower();
@@ -82,6 +84,10 @@ namespace Test
 
             // Обновляем источник данных для currencyListView
             currencyListView.ItemsSource = filteredCurrencies;
+        }
+        private void ConvertPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            contentFrame.Navigate(new ConvertPage());
         }
     }
 }

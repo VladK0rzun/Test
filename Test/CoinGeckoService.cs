@@ -11,7 +11,7 @@ namespace Test
     internal class CoinGeckoService
     {
         private const string ApiBaseUrl = "https://api.coingecko.com/api/v3";
-        private const string ApiKey = "CG-LCajFqipEGQDbnmN5jBfrovp"; // Замініть це на свій ключ API
+        private const string ApiKey = "CG-eBGBcYK66ApzzcbTS1NzCsK1"; // Замініть це на свій ключ API
 
         public async Task<List<Currency>> GetTopCurrenciesAsync(int limit = 10)
         {
@@ -86,6 +86,46 @@ namespace Test
         private DateTime UnixTimeStampToDateTime(double unixTimeStampMillis)
         {
             return new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds(unixTimeStampMillis).ToLocalTime();
+        }
+        public async Task<double> GetExchangeRateAsync(string fromCurrency, string toCurrency)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                client.DefaultRequestHeaders.Add("User-Agent", "Test-Task");
+
+                string apiUrl = $"{ApiBaseUrl}/simple/price";
+                var parameters = new Dictionary<string, string>
+        {
+            {"ids", fromCurrency},
+            {"vs_currencies", toCurrency}
+        };
+
+                var response = await client.GetAsync($"{apiUrl}?{string.Join("&", parameters.Select(kv => $"{kv.Key}={kv.Value}"))}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    JObject responseObject = JObject.Parse(content);
+
+                    // Check if the response contains the 'fromCurrency' and 'toCurrency' keys
+                    if (responseObject.ContainsKey(fromCurrency.ToLower()) && responseObject[fromCurrency.ToLower()].ToObject<JObject>().ContainsKey(toCurrency.ToLower()))
+                    {
+                        // Parse the response and get the exchange rate
+                        double exchangeRate = responseObject[fromCurrency.ToLower()][toCurrency.ToLower()].ToObject<double>();
+                        return exchangeRate;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Error: One or both currencies not found in the response.");
+                        return 0.0; // Handle the error case appropriately
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Error: {response.StatusCode}");
+                    return 0.0; // Handle the error case appropriately
+                }
+            }
         }
         public async Task<List<CurrencyMarket>> GetCurrencyMarketsAsync(string currencyId)
         {

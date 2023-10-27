@@ -1,0 +1,29 @@
+﻿<Page x:Class="Test.ConvertPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Test"
+        mc:Ignorable="d"
+        Title="ConvertPage" Height="450" Width="800">
+    <Grid Width="auto" Height="auto">
+        <StackPanel Margin="10">
+            <Frame x:Name="contentFrame" NavigationUIVisibility="Hidden"/>
+            <Button x:Name="MainPageButton" Content="Back to main Page" Click="BackButton_Click" Width="150" HorizontalAlignment="Left"/>
+            
+            <Label>Convert Currency</Label>
+            <Label>Amount:</Label>
+            <TextBox x:Name="amountTextBox" Width="100"/>
+
+            <Label>From Currency:</Label>
+            <ComboBox x:Name="fromCurrencyComboBox" Width="100"/>
+
+            <Label>To Currency:</Label>
+            <ComboBox x:Name="toCurrencyComboBox" Width="100"/>
+
+            <Button Content="Convert" Click="ConvertButton_Click" Margin="0,10,0,0"/>
+
+            <Label x:Name="resultLabel" FontSize="16" FontWeight="Bold" Margin="0,20,0,0"/>
+        </StackPanel>
+    </Grid>
+</Page>
